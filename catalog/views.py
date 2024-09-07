@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from utils import write_data
+from .models import Product, Contacts
 
 
 def home(request):
-    return render(request, 'main/home.html')
+    products = Product.objects.order_by('-id')[:5]
+    for prod in products:
+        print(prod)
+    return render(request, 'main/home.html', {'products': products})
 
 
 def contacts(request):
@@ -20,7 +24,8 @@ def contacts(request):
 
         write_data(info)
 
-    return render(request, 'main/contacts.html')
+    contacts = Contacts.objects.all()
+    return render(request, 'main/contacts.html', {'contacts': contacts})
 
 
 
