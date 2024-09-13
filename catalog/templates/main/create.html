@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+<div class="features">
+    <div class="row text-center">
+        <h1>Форма по добавлению продукта</h1>
+        <form method="post">
+            {% csrf_token %}
+                    {{ form.name }}<br>
+                    {{ form.description }}<br>
+                    {{ form.photo }}<br>
+                    {{ form.price }}<br>
+<!--                    {{ form.created_at }}<br>-->
+<!--                    {{ form.updated_at }}<br>-->
+<!--            <input type="text"-->
+<!--                   placeholder="Название статьи" class="form-control"><br>-->
+<!--            <input type="text" placeholder="Анонс статьи" class="form-control"><br>-->
+<!--            <textarea class="form-control" placeholder="Текст статьи"></textarea><br>-->
+<!--            <input type="date" class="form-control"><br> <input type="time" class="form-control"><br>-->
+            <span>{{ error }}</span>
+            <button type="submit" class="btn btn-success">Добавить продукт</button>
+        </form>
+    </div>
+
+</div>
+
+
+{% endblock %}
