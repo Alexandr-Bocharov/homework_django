@@ -1,9 +1,9 @@
-{% extends 'main/base.html' %}
+{% extends 'catalog/base.html' %}
 {% load my_tags %}
 
 {% block content %}
 <div class="row text-center">
-    {% for prod in products %}
+    {% for prod in object_list %}
     <div class="col-3">
         <div class="card mb-4 box-shadow">
             <div class="card-header">
@@ -18,7 +18,7 @@
             <div class="card-body">
                 <img src="" alt="">
                 <h1 class="card-title pricing-card-title">{{ prod.price }} руб.</h1>
-                <a class="btn btn-primary" href="{% url 'catalog:product' prod.pk %}" role="button">Подробнее</a>
+                <a class="btn btn-primary" href="{% url 'catalog:product_detail' prod.pk %}" role="button">Подробнее</a>
             </div>
         </div>
     </div>
