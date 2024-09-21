@@ -1,0 +1,28 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+<div class="row text-center">
+    <div class="col-12">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ object.title }}</h4>
+            </div>
+            <div class="card-body">
+                <img src="{{ object.photo | media_filter }}">
+            </div>
+
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">{{ object.body }} руб.</h1>
+                <ul class="list-unstyled mt-3 mb-4 text-center m-3">
+                    <li>{{ object.description }}</li>
+                </ul>
+                <a class="btn btn-primary" href="{% url 'blogs:blog_list' %}" role="button">На главную</a>
+                <ul class="list-unstyled mt-3 mb-4 text-center m-3">
+                    <li>Просмотрено: {{ object.views_count }} раз</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
