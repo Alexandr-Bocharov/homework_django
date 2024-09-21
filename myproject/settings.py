@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'catalog',
+    'blogs',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.mail.ru'  # SMTP-сервер Mail.ru
+# EMAIL_PORT = 465  # Порт для TLS
+# EMAIL_USE_TLS = False  # Используем TLS
+# EMAIL_USE_SSL = True  # Отключаем SSL
+# EMAIL_HOST_USER = 'counter23062001@mail.ru'  # Ваш email
+# EMAIL_HOST_PASSWORD = '653019Ss+-'  # Ваш пароль
+# DEFAULT_FROM_EMAIL = 'counter23062001@mail.ru'  # Ваш email
