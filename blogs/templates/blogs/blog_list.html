@@ -1,0 +1,51 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+
+<div class="row text-center">
+    <h1>Статьи</h1>
+</div><br>
+
+<div class="row text-center">
+    <div class="card-body">
+        <a href="{% url 'blogs:blog_create' %}" type="button"
+           class="btn btn-lg btn-block btn-outline-primary">Добавить статью</a>
+    </div>
+</div><br>
+
+
+<div class="row text-center">
+    {% for blog in object_list %}
+    <div class="col-4">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ blog.title }}</h4>
+                <h3>{{ blog.slug }}</h3>
+            </div>
+            <div class="card-body">
+                <img src="{{ blog.photo | media_filter }}">
+            </div>
+            <div class="card-body">
+                <p>{{ blog.body | truncate_chars }}...</p>
+            </div>
+            <div class="align-items-center">
+                <div class="btn-group">
+                    <a href="{% url 'blogs:blog_detail' blog.pk %}" type="button"
+                       class="btn btn-sm btn-outline-primary">Посмотреть</a>
+                    <a href="{% url 'blogs:blog_update' blog.pk %}" type="button"
+                       class="btn btn-sm btn-outline-primary">Редактировать</a>
+                    <a href="{% url 'blogs:blog_delete' blog.pk %}" type="button"
+                       class="btn btn-sm btn-outline-primary">Удалить</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <img src="" alt="">
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
