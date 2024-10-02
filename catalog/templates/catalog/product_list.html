@@ -9,6 +9,12 @@
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">{{ prod.name }}</h4>
             </div>
+            <div class="card-body" style="background-color: #ddffdd">
+                {% if prod.current_version %}
+                <p>номер версии: {{ prod.current_version.version_number }}</p>
+                <p>название версии: {{ prod.current_version.version_name }}</p>
+                {% endif %}
+            </div>
             <div class="card-body">
                 <img src="{{ prod.photo | media_filter }}">
             </div>
