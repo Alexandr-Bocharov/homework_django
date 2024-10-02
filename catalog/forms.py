@@ -1,32 +1,59 @@
 from .models import Product
-from django.forms import ModelForm, TextInput, DateTimeInput, Textarea, ImageField, ClearableFileInput, NumberInput, DateInput
+from django.forms import ModelForm, forms, BooleanField
 
 
-class ProductForm(ModelForm):
+class StyleFormMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if isinstance(field, BooleanField):
+                field.widget.attrs['class'] = 'form-check-input'
+            else:
+                field.widget.attrs['class'] = 'form-control'
+
+
+
+class ProductForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'photo', 'price', 'created_at', 'updated_at']
+        exclude = ("created_at", "updated_at")
 
-        widgets = {
-            'name': TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Название продукта'
-            }),
-            'description': Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': 'Описание'
-            }),
-            'price': NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Цена',
-                'min': 0,
-                'step': 1
-            }),
-            'photo': ClearableFileInput(attrs={
-                'class': 'form-control-file',
-                'placeholder': 'Выбрать фото',
-                'accept': 'image/*'
-            })
+    def clean_name(self):
+        name = self.cleaned_data["name"]
+        forbidden_words = [
+            "казино",
+            "криптовалюта",
+            "крипта",
+            "биржа",
+            "дешево",
+            "бесплатно",
+            "обман",
+            "полиция",
+            "радар",
+        ]
+        name_words = name.split()
+        for word in name_words:
+            if word.lower() in forbidden_words:
+                raise forms.ValidationError(
+                    f"В названии продукта имеется запрещенное слово: {word}"
+                )
+        return name
 
-
-        }
+    def clean_description(self):
+        description = self.cleaned_data["description"]
+        forbidden_words = [
+            "казино",
+            "криптовалюта",
+            "крипта",
+            "биржа",
+            "дешево",
+            "бесплатно",
+            "обман",
+            "полиция",
+            "радар",
+        ]
+        description_words = description.split()
+        for word in description_words:
+            if word.lower() in forbidden_words:
+                raise forms.ValidationError(f'В описании продукта имеется запрещенное слово: {word}')
+        return description
