@@ -6,13 +6,25 @@ from django.utils.translation.trans_real import catalog
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 
 from utils import write_data
-from .models import Product, Contacts
 from .forms import ProductForm
-
+from .models import Product, Contacts, Version
 
 
 class ProductListView(ListView):
     model = Product
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        for product in context_data['object_list']:
+            product.versions = Version.objects.filter(product=product)
+            for version in product.versions:
+                if version.current_version_flag:
+                    product.current_version = version
+
+
+
+
+        return context_data
 
 
 class ContactsView(TemplateView):
@@ -55,8 +67,11 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ('name', 'description', 'price', 'category', 'photo')
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
+
+
+
 
 
 
