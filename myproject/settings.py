@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     'catalog',
     'blogs',
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -135,5 +137,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
+
+# django_crispy_forms
+# https://django-crispy-forms.readthedocs.io/en/latest/install.html
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# end django_crispy_forms
 
 

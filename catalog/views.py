@@ -3,10 +3,10 @@ from lib2to3.fixes.fix_input import context
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.translation.trans_real import catalog
-from django.views.generic import ListView, DetailView, CreateView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView
 
 from utils import write_data
-from .forms import ProductForm
+from .forms import ProductForm, VersionForm
 from .models import Product, Contacts, Version
 
 
@@ -68,6 +68,18 @@ class ProductDetailView(DetailView):
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
+    success_url = reverse_lazy('catalog:product_list')
+
+
+class VersionCreateView(CreateView):
+    model = Version
+    form_class = VersionForm
+    success_url = reverse_lazy('catalog:product_list')
+
+
+class VersionUpdateView(UpdateView):
+    model = Version
+    form_class = VersionForm
     success_url = reverse_lazy('catalog:product_list')
 
 
