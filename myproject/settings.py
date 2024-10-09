@@ -40,8 +40,12 @@ INSTALLED_APPS = [
 
     'catalog',
     'blogs',
+    'users',
+
     'crispy_forms',
     'crispy_bootstrap4',
+
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -144,5 +148,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # end django_crispy_forms
+
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "counter230620013@yandex.com"
+EMAIL_HOST_PASSWORD = "smrqfzjupnjnnpfi"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 
