@@ -15,7 +15,7 @@ from django.forms import ModelForm, forms, BooleanField
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        exclude = ("created_at", "updated_at")
+        exclude = ("created_at", "updated_at", 'salesman')
 
     def clean_name(self):
         name = self.cleaned_data["name"]
