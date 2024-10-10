@@ -1,7 +1,8 @@
 from lib2to3.fixes.fix_input import context
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.translation.trans_real import catalog
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView
 
@@ -25,6 +26,14 @@ class ProductListView(ListView):
 
 
         return context_data
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:product_list')
+
+    def get_success_url(self):
+        return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
 
 
 class ContactsView(TemplateView):
@@ -65,13 +74,23 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
+    login_url = "/users/login/"
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
+    def form_valid(self, form):
+        product = form.save()
+        user = self.request.user
+        product.salesman = user
+        product.save()
 
-class VersionCreateView(CreateView):
+        return super().form_valid(form)
+
+
+class VersionCreateView(LoginRequiredMixin, CreateView):
+    login_url = "/users/login/"
     model = Version
     form_class = VersionForm
     success_url = reverse_lazy('catalog:product_list')
