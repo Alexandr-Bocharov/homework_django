@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import date
 
+from users.models import User, NULLABLE
+
 
 class Category(models.Model):
     name = models.CharField(
@@ -53,6 +55,7 @@ class Product(models.Model):
     updated_at = models.DateField(
         verbose_name="Дата последнего изменения записи", blank=True, null=True
     )
+    salesman = models.ForeignKey(User, verbose_name='продавец', on_delete=models.SET_NULL, **NULLABLE)
 
     class Meta:
         verbose_name = "Продукт"
