@@ -50,23 +50,30 @@ class CustomPasswordResetView(FormView):
 
     def form_valid(self, form):
         email = form.cleaned_data.get('email')
-        users = User.objects.filter(email=email)
+        # user = User.objects.get(email=email)
 
-        if users.exists():
-            for user in users:
-                new_password = generation_password()
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            form.add_error(None, 'Пользователь не найден')
+            return super().form_invalid(form)
+        except User.MultipleObjectsReturned:
+            form.add_error(None, 'что-то пошло не так')
+            return super().form_invalid(form)
 
-                user.set_password(new_password)
-                user.save()
+        new_password = generation_password()
 
-                send_mail(
-                    subject = 'Восстановление пароля',
-                    message = f'Ваш новый пароль от сайта MyStore: {new_password}',
-                    from_email = EMAIL_HOST_USER,
-                    recipient_list = [email],
-                    fail_silently=False,
-                )
-        return super().form_valid(form)
+        user.set_password(new_password)
+        user.save()
+
+        send_mail(
+            subject = 'Восстановление пароля',
+            message = f'Ваш новый пароль от сайта MyStore: {new_password}',
+            from_email = EMAIL_HOST_USER,
+            recipient_list = [email],
+            fail_silently=False,
+        )
+        return redirect(self.success_url)
 
 class UserUpdateView(UpdateView):
     model = User

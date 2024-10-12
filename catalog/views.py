@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.translation.trans_real import catalog
-from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView
 
 from utils import write_data
 from .forms import ProductForm, VersionForm
@@ -27,7 +27,8 @@ class ProductListView(ListView):
 
         return context_data
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = "/users/login/"
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
@@ -81,12 +82,14 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('catalog:product_list')
 
     def form_valid(self, form):
-        product = form.save()
-        user = self.request.user
-        product.salesman = user
-        product.save()
+        form.instance.salesman = self.request.user
 
         return super().form_valid(form)
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = "/users/login/"
+    model = Product
+    success_url = reverse_lazy('catalog:product_list')
 
 
 class VersionCreateView(LoginRequiredMixin, CreateView):
