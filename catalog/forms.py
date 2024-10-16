@@ -59,6 +59,11 @@ class ProductForm(ModelForm):
                 )
         return description
 
+class ProductModeratorForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ('is_published', 'category', 'description')
+
 
 class VersionForm(ModelForm):
     class Meta:

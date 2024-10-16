@@ -9,8 +9,10 @@
 
 <div class="row text-center">
     <div class="card-body">
+        {% if perms.blogs.add_blog %}
         <a href="{% url 'blogs:blog_create' %}" type="button"
            class="btn btn-lg btn-block btn-outline-primary">Добавить статью</a>
+        {% endif %}
     </div>
 </div><br>
 
@@ -33,10 +35,14 @@
                 <div class="btn-group">
                     <a href="{% url 'blogs:blog_detail' blog.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Посмотреть</a>
+                    {% if perms.blogs.change_blog %}
                     <a href="{% url 'blogs:blog_update' blog.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Редактировать</a>
+                    {% endif %}
+                    {% if perms.blogs.delete_blog %}
                     <a href="{% url 'blogs:blog_delete' blog.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Удалить</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="card-body">

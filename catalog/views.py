@@ -1,13 +1,14 @@
 from lib2to3.fixes.fix_input import context
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.translation.trans_real import catalog
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView
 
 from utils import write_data
-from .forms import ProductForm, VersionForm
+from .forms import ProductForm, VersionForm, ProductModeratorForm
 from .models import Product, Contacts, Version
 
 
@@ -22,19 +23,24 @@ class ProductListView(ListView):
                 if version.current_version_flag:
                     product.current_version = version
 
-
-
-
         return context_data
 
+
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
-    login_url = "/users/login/"
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
     def get_success_url(self):
         return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.salesman:
+            return ProductForm
+        if user.has_perms(['catalog.can_edit_description', 'catalog.can_edit_category', 'catalog.can_cancel_publication']):
+            return ProductModeratorForm
+        raise PermissionDenied
 
 
 class ContactsView(TemplateView):
@@ -48,9 +54,6 @@ class ContactsView(TemplateView):
         return context
 
     success_url = reverse_lazy('catalog:contacts')
-
-
-
 
 
 # def contacts(request):
@@ -67,8 +70,8 @@ class ContactsView(TemplateView):
 #
 #         write_data(info)
 
-    # contacts = Contacts.objects.all()
-    # return render(request, 'catalog/contacts.html', {'contacts': contacts})
+# contacts = Contacts.objects.all()
+# return render(request, 'catalog/contacts.html', {'contacts': contacts})
 
 
 class ProductDetailView(DetailView):
@@ -76,7 +79,6 @@ class ProductDetailView(DetailView):
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
-    login_url = "/users/login/"
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
@@ -86,30 +88,19 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
+
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
-    login_url = "/users/login/"
     model = Product
     success_url = reverse_lazy('catalog:product_list')
 
 
 class VersionCreateView(LoginRequiredMixin, CreateView):
-    login_url = "/users/login/"
     model = Version
     form_class = VersionForm
     success_url = reverse_lazy('catalog:product_list')
 
 
-class VersionUpdateView(UpdateView):
+class VersionUpdateView(LoginRequiredMixin, UpdateView):
     model = Version
     form_class = VersionForm
     success_url = reverse_lazy('catalog:product_list')
-
-
-
-
-
-
-
-
-
-

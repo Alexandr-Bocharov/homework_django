@@ -6,6 +6,9 @@
                 <p class="text-body-secondary">Best prices</p>
             </div>
             <div class="col-sm-4 offset-md-1 py-4">
+                {% if user.is_authenticated %}
+                <p>{{ user }}</p>
+                {% endif %}
                 <h4>Навигация</h4>
                 <ul class="list-unstyled">
                     <li><a href="{% url 'catalog:product_list' %}" class="text-white">Главная</a></li>

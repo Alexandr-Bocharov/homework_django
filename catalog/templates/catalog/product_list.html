@@ -26,7 +26,9 @@
                 <h1 class="card-title pricing-card-title">{{ prod.price }} руб.</h1>
                 <a class="btn btn-outline-primary" href="{% url 'catalog:product_detail' prod.pk %}"
                    role="button">Подробнее</a>
+                {% if perms.catalog.can_edit_description and perms.catalog.can_edit_category and perms.catalog.can_cancel_publication or user == prod.salesman %}
                 <a class="btn btn-outline-primary" href="{% url 'catalog:product_edit' prod.pk %}" role="button">Редактировать</a>
+                {% endif %}
                 <a class="btn btn-outline-primary" href="{% url 'catalog:product_delete' prod.pk %}" role="button">Удалить</a>
             </div>
         </div>
