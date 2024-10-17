@@ -31,18 +31,8 @@ class BlogDetailView(DetailView):
         self.object.views_count += 1
         self.object.save()
 
-        # if self.object.views_count == 100:
-        #     self.send_congratulations_email()
-
         return self.object
 
-    # def send_congratulations_email(self):
-    #     subject = f'Статья {self.object.title} достигла 100 просмотров!'
-    #     message = f'Поздравляем! Ваша статья {self.object.title} набрала 100 просмотров!'
-    #     from_email = settings.DEFAULT_FROM_EMAIL
-    #     recipient_list = ['counter2306@yandex.ru']
-    #
-    #     send_mail(subject, message, from_email, recipient_list)
 
 
 

@@ -25,6 +25,19 @@ class ProductListView(ListView):
 
         return context_data
 
+    def get_queryset(self):
+        # для вывода только опубликованных продуктов для обычных пользователей
+        if self.request.user.is_staff:
+            return Product.objects.all()
+        else:
+            return Product.objects.filter(is_published=True)
+
+class MyProductListView(LoginRequiredMixin, ListView):
+    model = Product
+
+    def get_queryset(self):
+        return Product.objects.filter(salesman=self.request.user)
+
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
@@ -54,24 +67,6 @@ class ContactsView(TemplateView):
         return context
 
     success_url = reverse_lazy('catalog:contacts')
-
-
-# def contacts(request):
-#     if request.method == 'POST':
-#         name = request.POST.get('name')
-#         phone = request.POST.get('phone')
-#         message = request.POST.get('message')
-#
-#         info = {
-#             "name": name,
-#             "phone": phone,
-#             "message": message
-#         }
-#
-#         write_data(info)
-
-# contacts = Contacts.objects.all()
-# return render(request, 'catalog/contacts.html', {'contacts': contacts})
 
 
 class ProductDetailView(DetailView):

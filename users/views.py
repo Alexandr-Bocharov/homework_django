@@ -50,7 +50,6 @@ class CustomPasswordResetView(FormView):
 
     def form_valid(self, form):
         email = form.cleaned_data.get('email')
-        # user = User.objects.get(email=email)
 
         try:
             user = User.objects.get(email=email)
@@ -83,48 +82,5 @@ class UserUpdateView(UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
-# class ResetPasswordConfirmView(PasswordResetConfirmView):
-#     template_name = 'users/password_reset_confirm.html',
-#     success_url = reverse_lazy('users:password_reset_complete')
-#     exclude = '__all__'
-#
-#     def form_valid(self, form):
-#         user = form.save()
-#         new_password = generation_password(10)
-#         user.set_password() = make_password(new_password)
-#         user.save()
-#
-#         return super().form_valid(form)
-
-
-
-
-# class ResetPasswordView(PasswordResetView):
-#     template_name = 'users/password_reset_form.html'
-#     form_class = ResetPasswordForm
-#     model = User
-#     success_url = reverse_lazy('users:password_reset_done')
-#
-#     def form_valid(self, form):
-#         user = form.save()
-#         new_password = generation_password(10)
-#         user.password = make_password(new_password)
-#         user.save()
-#         send_mail(
-#             subjec = 'Новый пароль',
-#             message = f'Ваш новый пароль от сайта Mystore: {new_password}',
-#             from_email = EMAIL_HOST_USER,
-#             recipient_list = [user.email],
-#         )
-#
-#
-#         return super().form_valid(form)
-
-# def set_new_password(request, token):
-#     user = get_object_or_404(User, token=token)
-#     new_password = generation_password(10)
-#     user.password = make_password(new_password)
-#     user.save()
-#     return redirect(reverse_lazy('users:reset_password_complete'))
 
 

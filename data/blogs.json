@@ -1,0 +1,28 @@
+[
+  {
+    "model": "blogs.blog",
+    "pk": 5,
+    "fields": {
+      "title": "Мода сегодня 2",
+      "slug": "moda-segodnya",
+      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dapibus nibh quis ipsum accumsan, eget rhoncus libero volutpat. Quisque porttitor tortor ac consectetur efficitur. Etiam eget quam ultricies, imperdiet metus ut, vehicula magna. Maecenas tincidunt neque id augue bibendum feugiat. Pellentesque efficitur rhoncus nisi, eu laoreet diam. Nunc dapibus pharetra posuere. Praesent a aliquam justo, eget tincidunt est.",
+      "photo": "Изображение_1.jpeg",
+      "created_at": "2024-09-21",
+      "public_sign": true,
+      "views_count": 106
+    }
+  },
+  {
+    "model": "blogs.blog",
+    "pk": 6,
+    "fields": {
+      "title": "Почему мода важна в современном мире",
+      "slug": "pochemu-moda-vazhna-v-sovremennom-mire",
+      "body": "Ut condimentum semper mi vel rhoncus. Sed euismod elit et odio tempus placerat. Mauris tellus neque, tincidunt non feugiat quis, tempor et sapien. Fusce sed purus auctor, pharetra est eget, viverra ante. Donec euismod sit amet nibh et posuere. Aliquam urna nisl, luctus nec lacinia vel, lobortis non dui. Aenean tortor felis, porttitor vel scelerisque nec, molestie et nisi. Integer quis ante ante. Quisque sem urna, pharetra ut dolor ac, sodales tincidunt libero. Vestibulum et risus maximus lectus consectetur imperdiet. Vestibulum sed varius est. Vestibulum a ipsum id dui faucibus congue.",
+      "photo": "Изображение_R6Zmh0I.jpeg",
+      "created_at": "2024-09-21",
+      "public_sign": true,
+      "views_count": 4
+    }
+  }
+]
