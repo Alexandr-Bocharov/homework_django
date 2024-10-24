@@ -4,6 +4,7 @@ from django.urls import path, reverse_lazy
 
 from users.apps import UsersConfig
 from users.views import RegisterView, email_verification, CustomPasswordResetView, UserUpdateView
+from django.views.decorators.cache import never_cache
 
 app_name = UsersConfig.name
 

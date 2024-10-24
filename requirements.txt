@@ -23,11 +23,13 @@ phonenumberslite==8.13.47
 pillow==10.4.0
 platformdirs==4.3.6
 prompt_toolkit==3.0.47
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.10
 ptyprocess==0.7.0
 pure_eval==0.2.3
 Pygments==2.18.0
+python-dotenv==1.0.1
 pytils==0.4.1
+redis==5.1.1
 requests==2.32.3
 six==1.16.0
 sqlparse==0.5.1

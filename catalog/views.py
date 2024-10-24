@@ -1,5 +1,7 @@
-from lib2to3.fixes.fix_input import context
+# from lib2to3.fixes.fix_input import context
 
+from catalog.services import get_cached_categories, get_cached_products
+from catalog.models import Category
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
@@ -14,6 +16,10 @@ from .models import Product, Contacts, Version
 
 class ProductListView(ListView):
     model = Product
+
+    def get_queryset(self):
+        return get_cached_products()
+
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -31,6 +37,15 @@ class ProductListView(ListView):
             return Product.objects.all()
         else:
             return Product.objects.filter(is_published=True)
+
+
+class CategoryListView(ListView):
+    model = Category
+
+    def get_queryset(self):
+        return get_cached_categories()
+
+
 
 class MyProductListView(LoginRequiredMixin, ListView):
     model = Product
@@ -99,3 +114,4 @@ class VersionUpdateView(LoginRequiredMixin, UpdateView):
     model = Version
     form_class = VersionForm
     success_url = reverse_lazy('catalog:product_list')
+

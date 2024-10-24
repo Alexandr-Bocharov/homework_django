@@ -11,19 +11,23 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os.path
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ros@fg72l3b^i+_oh!0rnt$04(x)1z)awxs2*1x%i4&vzhj-eq'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -84,12 +88,12 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'homework_django2',
-        'HOST': '127.0.0.1',
+        'ENGINE': os.getenv('ENGINE'),
+        'NAME': os.getenv('NAME'),
+        'HOST': os.getenv('HOST'),
         'USER': 'postgres',
-        'PASSWORD': '2306',
-        'PORT': '5433'
+        'PASSWORD': os.getenv('PASSWORD'),
+        'PORT': os.getenv('PORT')
     }
 }
 
@@ -157,15 +161,37 @@ LOGIN_URL = '/users/login/'
 
 
 
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = "counter230620013@yandex.com"
-EMAIL_HOST_PASSWORD = "smrqfzjupnjnnpfi"
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
 
-SERVER_EMAIL = EMAIL_HOST_USER
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = os.getenv('EMAIL_HOST_USER')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
+
+
+MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+
+    "django.middleware.cache.UpdateCacheMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
+
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CACHE_ENABLED = os.getenv('CACHE_ENABLED') == 'True'
+
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv('LOCATION')
+        }
+}
 
 
 
